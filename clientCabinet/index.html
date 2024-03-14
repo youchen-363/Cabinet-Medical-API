@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css"> 
+        <title>TP Client JavaScript pour ChuckAPI avec Fetch API</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Client JavaScript pour ChuckAPI</h1>
+            <!-- Formulaires pour les opérations CRUD -->
+
+            <!-- Afficher toutes les phrases -->
+            <div class="form-group">
+                <button id="getAllPhrases">Afficher toutes les phrases</button>
+                <div class="info-response" id="infoGetAllPhrases"></div>
+            </div>
+            
+            <!-- Afficher une phrase spécifique -->
+            <div class="form-group">
+                <label for="phraseID">ID de la phrase:</label>
+                <input type="text" id="phraseID" placeholder="Entrez l'ID de la phrase">
+                <button id="getPhrase">Afficher la phrase</button>
+                <div class="info-response" id="infoGetPhrase"></div>
+            </div>
+            
+            <!-- Ajouter une nouvelle phrase -->
+            <div class="form-group">
+                <label for="newPhrase">Nouvelle phrase:</label>
+                <input type="text" id="newPhrase" placeholder="Entrez la nouvelle phrase">
+                <button id="addPhrase">Ajouter la phrase</button>
+                <div class="info-response" id="infoAddPhrase"></div>
+            </div>
+            
+            <!-- Mise à jour d'une phrase -->
+            <div class="form-group">
+                <label for="updatePhraseID">ID de la phrase à modifier:</label>
+                <input type="text" id="updatePhraseID" placeholder="Entrez l'ID de la phrase à modifier">
+                <label for="updateContent">Nouvelle phrase :</label>
+                <input type="text" id="updateContent" placeholder="Entrez le nouveau contenu de la phrase">
+
+                <!-- Ajout des nouveaux champs -->
+                <label for="updateVote">Vote:</label>
+                <input type="number" id="updateVote" placeholder="Nombre de votes">
+                <label for="updateFaute">Faute de frappe:</label>
+                <input type="checkbox" id="updateFaute">
+                <label for="updateSignalement">Signalement:</label>
+                <input type="checkbox" id="updateSignalement">
+
+                <!-- Boutons radio pour la sélection de la méthode de mise à jour (PATCH / PUT) -->
+                <div>
+                    <input type="radio" id="methodPatch" name="updateMethod" value="PATCH" checked>
+                    <label for="methodPatch">PATCH (mise à jour partielle)</label>
+                </div>
+                <div>
+                    <input type="radio" id="methodPut" name="updateMethod" value="PUT">
+                    <label for="methodPut">PUT (mise à jour totale)</label>
+                </div>
+                <button id="updatePhrase">Modifier la phrase</button>
+                <div class="info-response" id="infoUpdatePhrase"></div>
+            </div>
+
+            <!-- Supprimer une phrase -->
+            <div class="form-group">
+                <label for="deletePhraseID">Supprimer la phrase ID:</label>
+                <input type="text" id="deletePhraseID" placeholder="Entrez l'ID de la phrase à supprimer">
+                <button id="deletePhrase">Supprimer la phrase</button>
+                <div class="info-response" id="infoDeletePhrase"></div>
+            </div>
+            
+            <!-- Zone pour l'affichage des réponses de l'API -->
+            <h2>DONNÉES REÇUES</h2>
+            <div class="response" id="apiResponse" style="display: none;">
+                <table>
+                    <caption>Liste des phrases</caption>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Phrase</th>
+                        <th>Date Ajout</th>
+                        <th>Date Modification</th>
+                        <th>Vote</th>
+                        <th>Faute de Frappe</th>
+                        <th>Signalement</th>
+                    </tr>
+                    </thead>
+                    <tbody id="responseTableBody">
+                        <!-- Les lignes du tableau seront ajoutées ici via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Script JavaScript pour les interactions avec l'API -->
+        <script src="script.js"></script>
+    </body>
+</html>
