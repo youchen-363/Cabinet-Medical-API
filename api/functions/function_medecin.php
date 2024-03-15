@@ -10,7 +10,7 @@
     
     function getMedecinByIdAPI($linkpdo, $id){
         $recherche = "SELECT * FROM Medecin  
-                     WHERE idMedecin = :id   
+                     WHERE id_medecin = :id   
                      ORDER BY nom, prenom";
         $st = $linkpdo->prepare($recherche);
         $st -> bindParam(':id', $id);
@@ -20,15 +20,15 @@
     }
     
     function updateUsagerResetMedecinAPI($linkpdo, $idMedecin){
-        $st = $linkpdo -> prepare('UPDATE Usager set idMedecin = null
-                                    where idMedecin = :idMedecin');
+        $st = $linkpdo -> prepare('UPDATE Usager set id_medecin = null
+                                    where id_medecin = :idMedecin');
         $st -> bindParam(':idMedecin', $idMedecin);
         $ins = $st -> execute();
         return $ins;
     }
 
     function deleteConsultationByIdMedecinAPI($linkpdo, $idMedecin){
-        $st = $linkpdo -> prepare("DELETE FROM Consulter where idMedecin = :idMedecin");
+        $st = $linkpdo -> prepare("DELETE FROM Consulter where id_medecin = :idMedecin");
         $st -> bindParam(':idMedecin',$idMedecin);
         $ins = $st-> execute();
         return $ins;
@@ -37,7 +37,7 @@
     function deleteMedecinByIdAPI($linkpdo, $id){
         deleteConsultationByIdMedecinAPI($linkpdo, $id);
         updateUsagerResetMedecinAPI($linkpdo, $id);
-        $st = $linkpdo->prepare("DELETE FROM Medecin WHERE idMedecin = :idM");
+        $st = $linkpdo->prepare("DELETE FROM Medecin WHERE id_medecin = :idM");
         $st -> bindParam(':idM', $id);
         $ins = $st -> execute();
         return $ins;
@@ -75,7 +75,7 @@
             $req .= $added ? ", prenom = :prenom" : "prenom = :prenom";
             $param['prenom'] = $data['prenom'];
         }
-        $req .= " WHERE idMedecin = :id";
+        $req .= " WHERE id_medecin = :id";
         $param['id'] = $idM;
         $st = $linkpdo -> prepare($req);
         $ins = $st -> execute($param);
@@ -86,8 +86,8 @@
 
     function getMedecinByIdOrderId($linkpdo, $id){
         $recherche = "SELECT * FROM Medecin  
-                     WHERE idMedecin = :id   
-                     ORDER BY idMedecin";
+                     WHERE id_medecin = :id   
+                     ORDER BY id_medecin";
         $st = $linkpdo->prepare($recherche);
         $st -> bindParam(':id', $id);
         $st -> execute();
@@ -106,7 +106,7 @@
         if ($st !== false) {
             $row = $st->fetch(PDO::FETCH_ASSOC);
             if ($row !== false) {
-                return htmlspecialchars(getNomMedecinById($row["idMedecin"]));
+                return htmlspecialchars(getNomMedecinById($row["id_medecin"]));
             }
         }
     }
@@ -127,7 +127,7 @@
 
     function getNomMedecinById($linkpdo, $idM){
         $recherche = "SELECT * FROM Medecin WHERE
-                        idMedecin = :search
+                        id_medecin = :search
                         ORDER BY nom, prenom";
         $st = $linkpdo->prepare($recherche);
         $st -> bindParam(':search', $idM);
@@ -168,24 +168,23 @@
     function getIdMedecinByNom($nomMed){
         global $linkpdo;
         $res = -1;
-        $req = "SELECT idMedecin FROM Medecin where nom = :nomMed ORDER BY nom, prenom";
+        $req = "SELECT id_medecin FROM Medecin where nom = :nomMed ORDER BY nom, prenom";
         $result = $linkpdo->prepare($req);
         $result -> bindParam(':nomMed', $nomMed);
         $result -> execute();
         if ($result !== false) {
             $row = $result->fetch(PDO::FETCH_ASSOC);
             if ($row !== false) {
-                $res = htmlspecialchars($row["idMedecin"]);
+                $res = htmlspecialchars($row["id_medecin"]);
             }
         }
         return $res;
     }
 
     // Here new function 
-    function getNomPrenomMedecinById($idM){
-        global $linkpdo;
+    function getNomPrenomMedecinById($linkpdo, $idM){
         $recherche = "SELECT * FROM Medecin WHERE
-                        idMedecin = :search";
+                        id_medecin = :search";
         $st = $linkpdo->prepare($recherche);
         $st -> bindParam(':search', $idM);
         $st -> execute();
@@ -202,7 +201,7 @@
     // Here new function 
     function getIdMedecinByNomEtPrenom($nomMed, $prenomMed){
         global $linkpdo;
-        $req = "SELECT idMedecin FROM Medecin where nom = :nomMed and prenom = :prenomMed";
+        $req = "SELECT id_medecin FROM Medecin where nom = :nomMed and prenom = :prenomMed";
         $result = $linkpdo->prepare($req);
         $result -> bindParam(':nomMed', $nomMed);
         $result -> bindParam(':prenomMed', $prenomMed);
@@ -210,7 +209,7 @@
         if ($result !== false) {
             $row = $result->fetch(PDO::FETCH_ASSOC);
             if ($row !== false) {
-                return htmlspecialchars($row["idMedecin"]);
+                return htmlspecialchars($row["id_medecin"]);
             }
         }
         return null;
@@ -221,14 +220,14 @@
         global $linkpdo;
         $nomFiltre = "%" . $nomMed . "%";
         $res = -1;
-        $req = "SELECT idMedecin FROM Medecin where nom LIKE :nomMed or prenom LIKE :nomMed ORDER BY nom, prenom";
+        $req = "SELECT id_medecin FROM Medecin where nom LIKE :nomMed or prenom LIKE :nomMed ORDER BY nom, prenom";
         $result = $linkpdo->prepare($req);
         $result -> bindParam(':nomMed', $nomFiltre);
         $result -> execute();
         if ($result !== false) {
             $row = $result->fetch(PDO::FETCH_ASSOC);
             if ($row !== false) {
-                $res = htmlspecialchars($row["idMedecin"]);
+                $res = htmlspecialchars($row["id_medecin"]);
             }
         }
         return $res;

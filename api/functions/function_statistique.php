@@ -2,7 +2,7 @@
     function calculerAge($usgs){
         $nbHommeSup50 = $nbHommeMilieu = $nbHommeInf25 = $nbFemmeInf25 = $nbFemmeMilieu = $nbFemmeSup50 = $nbAutreSup50 = $nbAutreMilieu = $nbAutreInf25 = 0;
         foreach ($usgs as $usg){
-            $age = ageUsager($usg['dateNaissance']);
+            $age = ageUsager($usg['date_nais']);
             if ($age<25) {
                 if ($usg['civilite'] == "M"){
                     $nbHommeInf25++;
@@ -36,14 +36,27 @@
         );
     }
 
-    function calculerDureeMeds($cons){
+    function calculerDureeMeds($linkpdo, $cons){
         $array = array();
         foreach ($cons as $con){
-            $nom = getNomMedecinById($con['idMedecin']);
+            $nom = getNomPrenomMedecinById($linkpdo, $con['id_medecin']);
             if (!array_key_exists($nom, $array)){
                 $array[$nom] = 0;
             }
-            $array[$nom] += $con['Duree'];
+            $array[$nom] += $con['duree'];
+        }
+
+        foreach($array as $cle => $valeur){
+            $duree = heureToHeureMinute($array[$cle]);
+            $array[$cle] = $duree;
+        }
+
+        $meds = getAllMedecinsAPI($linkpdo);
+        foreach($meds as $med){
+            $nom = getNomPrenomMedecinById($linkpdo, $med['id_medecin']);
+            if (!array_key_exists($nom, $array)){
+                $array[$nom] = '00h00';
+            }
         }
         return $array;
     }
