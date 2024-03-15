@@ -1,0 +1,16 @@
+#--------------------------------------------------
+# Répertoire : /articles/
+#--------------------------------------------------
+
+# Le serveur doit suivre les liens symboliques :
+Options +FollowSymlinks
+
+# Activation du module de réécriture d'URL :
+RewriteEngine on
+
+#--------------------------------------------------
+# Règles de réécriture d'URL :
+#--------------------------------------------------
+
+# API d'authentification :
+RewriteRule stat/(.*)   api_statistiques.php?user_stat=$1 [L]
